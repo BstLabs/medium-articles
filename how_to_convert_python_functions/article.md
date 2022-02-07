@@ -94,7 +94,7 @@ With [dynacli](https://pypi.org/project/dynacli/) we can skip 2nd part by design
 
 ## Our changes to the original code
 
-First off all, we would like to restructure the CLI - thinking about CLI there should be `./cli` then `qr-code` feature-set(actual Python package) it is for storing all commands,
+First off all, we would like to restructure the CLI - thinking about CLI there should be `./green-badge` then `qr-code` feature-set(actual Python package) it is for storing all commands,
 then `generate` to generate actual QR codes:
 
 ```sh
@@ -175,7 +175,7 @@ def generate(
 ```
 
 The big change is we are going to accept variable length manufacturer names and dates will be passed as keyword arguments.
-This is quite intuitive isn't it? Thinking about CLI call, it will look like: `./cli qr-code generate Shako 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01`
+This is quite intuitive isn't it? Thinking about CLI call, it will look like: `./green-badge qr-code generate Shako 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01`
 
 The next importan change is - we have docstring with explanation of the arguments - you are right, dynacli uses this for building the help messages of the CLI.
 Again quite Pythonic - we already added explanation, why register same help message for building CLI?
@@ -214,15 +214,15 @@ Everything is dead simple Python. DynaCLI grabs version from `__version__` and C
 And that is it, now are ready to run the CLI, just give the execution priveleges to this file:
 
 ```sh
-chmod u+x cli
+chmod u+x green-badge
 ```
 
 Getting help output:
 
 ```sh
-$ ./cli -h
+$ ./green-badge -h
 
-usage: cli [-h] [-v] {qr-code} ...
+usage: green-badge [-h] [-v] {qr-code} ...
 
 Sample QR Generator
 
@@ -248,9 +248,9 @@ All QR code related commands are here
 Getting the version:
 
 ```sh
-$ ./cli --version
+$ ./green-badge --version
 
-cli - v1.0
+green-badge - v1.0
 ```
 
 DynaCLI detects `generate.py` file and it has `generate` function in it, and yes only public names will be exposed by CLI.
@@ -259,8 +259,8 @@ If you recall this function has a docstring - yes, that is the help message regi
 Getting help about actual command:
 
 ```py
-$ ./cli qr-code generate -h
-usage: cli qr-code generate [-h] name birth [manufacturers ...] [dates <name>=<value> ...]
+$ ./green-badge qr-code generate -h
+usage: green-badge qr-code generate [-h] name birth [manufacturers ...] [dates <name>=<value> ...]
 
 positional arguments:
   name                  name of the vaccinated person
@@ -281,7 +281,7 @@ It also detects Enum type and registers them as CLI choices.
 Now it is time to run our actual final command(function):
 
 ```sh
-$ ./cli qr-code generate 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01
+$ ./green-badge qr-code generate 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01
 
 QR code has been generated.
 ```
