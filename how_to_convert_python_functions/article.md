@@ -259,14 +259,14 @@ If you recall this function has a docstring - yes, that is the help message regi
 Getting help about actual command:
 
 ```py
-$ ./green-badge qr-code generate -h
-usage: green-badge qr-code generate [-h] name birth [manufacturers ...] [dates <name>=<value> ...]
+$ ./qr-code green-badge generate -h
+usage: qr-code green-badge generate [-h] first_name last_name birthdate [vaccinations <name>=<value> ...]
 
 positional arguments:
-  name                  name of the vaccinated person
-  birth                 birthday of the vaccinated person in YYYY-MM-DD format
-  manufacturers         manufacturer of the vaccine ['pfizer', 'moderna', 'astrazeneca', 'janssen', 'sinovac']
-  dates <name>=<value>  date of the vaccination
+  first_name            private name of the vaccinated person
+  last_name             family name of the vaccinated person
+  birthdate             birthday of the vaccinated person in YYYY-MM-DD format
+  vaccinations          <date>=<manufacturer> date and manufacturer of the vaccination
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -281,7 +281,7 @@ It also detects Enum type and registers them as CLI choices.
 Now it is time to run our actual final command(function):
 
 ```sh
-$ ./green-badge qr-code generate 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01
+$ ./qr-code green-badge generate Asher Sterkin 1959-06-07 2021-09-15=moderna 2021-12-20=moderna
 
 QR code has been generated.
 ```
