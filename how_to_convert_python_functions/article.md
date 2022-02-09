@@ -94,19 +94,19 @@ With [dynacli](https://pypi.org/project/dynacli/) we can skip 2nd part by design
 
 ## Our changes to the original code
 
-First off all, we would like to restructure the CLI - thinking about CLI there should be `./green-badge` then `qr-code` feature-set(actual Python package) it is for storing all commands,
+First off all, we would like to restructure the CLI - thinking about CLI there should be `./qr-code` then `green-badge` feature-set(actual Python package) it is for storing all commands,
 then `generate` to generate actual QR codes:
 
 ```sh
-$ tree qr_code -I __pycache__
+$ tree green_badge -I __pycache__
 
-qr_code
+green_badge
 ├── generate.py
 └── __init__.py
 
 ```
 
-Returning back to original code, if you notice, the Vaccine manufacturers are limited set of companies and those kind of information is a best fit for Enum type:
+Returning back to original code, if you notice, the Vaccine manufacturers are limited set of companies and those kind of information is a best fit for `Enum` type:
 
 ```py
 from enum import Enum
@@ -120,14 +120,16 @@ class Manufacturer(Enum):
 
 ```
 
-Therefore, we do not need manufacturer check in the `__post_init__` anymore and can remove it, going further, the whole purpose of `@dataclass` here is the validation, we can replace them with [TypedDict](https://docs.python.org/3.9/library/typing.html#typing.TypedDict).
+Or we can use [Literal](https://docs.python.org/3.9/library/typing.html#typing.Literal) -  and I am going to use it here in favor of Enum, by that we lose some guard but the clean interface is always beats and you can always add extra checks outside of the interface.
+
+Therefore, we do not need manufacturer check in the `__post_init__` anymore and can remove it, going further, the whole purpose of `@dataclass` here, is the validation, we can replace them with [TypedDict](https://docs.python.org/3.9/library/typing.html#typing.TypedDict).
 
 Our updated code `generate.py` file looks like:
 
 ```py
 class Vaccination(TypedDict):
-    manufacturer: Manufacturer
     date: datetime
+    manufacturer: Literal["pfizer", "moderna", "astrazeneca", "janssen", "sinovac"]
 
 
 class QRCode(TypedDict):
@@ -139,28 +141,24 @@ class QRCode(TypedDict):
 The second big step is to design actual `generate` function in a way that it is going to accept all necessary information as arguments:
 
 ```py
-def generate(
-    name: str, birth: str, *manufacturers: Manufacturer, **dates: str
-) -> None:
+def generate(first_name: str, last_name: str, birthdate: str,  **vaccination: str) -> None:
     """
     Generate your vaccination QR code.
 
     Args:
-        name (str): name of the vaccinated person
-        birth (str): birthday of the vaccinated person in YYYY-MM-DD format
-        *manufacturers (Enum): manufacturer of the vaccine
-        **dates (str): date of the vaccination
+        first_name (str): name of the vaccinated person
+        last_name (str): surname of the vaccindate person
+        birthdate (str): birthday of the vaccinated person in YYYY-MM-DD format
+        **vaccination (str): vaccination information as date=manufacturer 
 
     Return: None
     """
     qr_code = QRCode(
-        name=name,
-        birth=birth,
+        name=f"{first_name} {last_name}",
+        birth=birthdate,
         vaccination=[
-            Vaccination(
-                manufacturer=manufacturer, date=date
-            )
-            for manufacturer, date in zip(manufacturers, dates.values())
+            Vaccination(manufacturer=manufacturer, date=datetime.strptime(date, "%Y-%m-%d"))
+            for date, manufacturer in vaccination.items()
         ],
     )
     res = requests.get(
@@ -174,11 +172,11 @@ def generate(
     print("QR code has been generated.")
 ```
 
-The big change is we are going to accept variable length manufacturer names and dates will be passed as keyword arguments.
-This is quite intuitive isn't it? Thinking about CLI call, it will look like: `./green-badge qr-code generate Shako 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01`
+The big change is we are going to accept date and the manufacturer name as keyword arguments.
+This is quite intuitive isn't it? Thinking about CLI call, it will look like: `./qr-code green-badge generate Shako Rzayev 1989-10-24 2021-01-01=pfizer 2021-06-01=pfizer`
 
-The next importan change is - we have docstring with explanation of the arguments - you are right, dynacli uses this for building the help messages of the CLI.
-Again quite Pythonic - we already added explanation, why register same help message for building CLI?
+The next important change is - we have docstring with explanation of the arguments - you are right, dynacli uses this for building the help messages of the CLI.
+Again quite Pythonic - we already added explanation, why register same help message for building the CLI?
 
 The rest of the code is mostly the same - functionally no change, the logic is the same.
 
@@ -214,59 +212,137 @@ Everything is dead simple Python. DynaCLI grabs version from `__version__` and C
 And that is it, now are ready to run the CLI, just give the execution priveleges to this file:
 
 ```sh
-chmod u+x green-badge
+$ chmod u+x qr-code
 ```
 
 Getting help output:
 
 ```sh
-$ ./green-badge -h
+$ ./qr-code -h
 
-usage: green-badge [-h] [-v] {qr-code} ...
+usage: qr-code [-h] [-v] {green-badge} ...
 
 Sample QR Generator
 
 positional arguments:
-  {qr-code}
-    qr-code      All QR code related commands are here
+  {green-badge}
+    green-badge  Generate Green Badge
 
 optional arguments:
   -h, --help     show this help message and exit
   -v, --version  show program's version number and exit
 ```
 
-The qr-code help message comes from the package `__init__.py` file:
+The `green-badge` help message comes from the package `__init__.py` file:
 
 ```sh
-$ cat qr_code/__init__.py 
+$ cat green_badge/__init__.py 
 
 """
-All QR code related commands are here
+Generate Green Badge
 """
+
+__version__ = "2.0"
 ```
 
-Getting the version:
+Getting the version of the CLI itself:
 
 ```sh
-$ ./green-badge --version
+$ ./qr-code --version
 
-green-badge - v1.0
+qr-code - v1.0
+```
+
+Now let's think about different situation - imagine your are porting some already developed package to be exposed by CLI,
+and it has own version v2.0 - should it mess up with our CLI version? We do not want to be sticked with only single version.
+
+Nope, you can version your packages and even modules with DynaCLI - again it is Pythonic just add `__version__` to package `__init__.py` and to the `generate.py` module itself.
+
+```sh
+$ ./qr-code green-badge --version
+
+qr-code green-badge - v2.0
+```
+
+```sh
+$ /qr-code green-badge generate --version
+
+qr-code green-badge generate - v3.0
 ```
 
 DynaCLI detects `generate.py` file and it has `generate` function in it, and yes only public names will be exposed by CLI.
 If you recall this function has a docstring - yes, that is the help message registered from function docstring.
 
-Getting help about actual command:
+Here, we want to stress the bullet point - with DynaCLI no need to begin write things from the scratch and rewrite the whole code base.
+All you need to import already existing functionality to some intermediate representation as we did with `generate.py` and register it in the CLI.
+This effectively conforms the [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle) - 
+your original code is closed to modification but is open to be extended by CLI.
+
+Our final version of `generate.py` looks like:
 
 ```py
-$ ./green-badge qr-code generate -h
-usage: green-badge qr-code generate [-h] name birth [manufacturers ...] [dates <name>=<value> ...]
+import shutil
+from datetime import datetime
+from typing import Literal, TypedDict
+
+import requests
+
+__version__ = "3.0"
+
+class Vaccination(TypedDict):
+    date: datetime
+    manufacturer: Literal["pfizer", "moderna", "astrazeneca", "janssen", "sinovac"]
+
+
+class QRCode(TypedDict):
+    name: str
+    birth: str
+    vaccination: list[Vaccination]
+
+
+def generate(first_name: str, last_name: str, birthdate: str,  **vaccination: str) -> None:
+    """
+    Generate your vaccination QR code.
+
+    Args:
+        first_name (str): name of the vaccinated person
+        last_name (str): surname of the vaccindate person
+        birthdate (str): birthday of the vaccinated person in YYYY-MM-DD format
+        **vaccination (str): vaccination information as date=manufacturer 
+
+    Return: None
+    """
+    qr_code = QRCode(
+        name=f"{first_name} {last_name}",
+        birth=birthdate,
+        vaccination=[
+            Vaccination(manufacturer=manufacturer, date=datetime.strptime(date, "%Y-%m-%d"))
+            for date, manufacturer in vaccination.items()
+        ],
+    )
+    res = requests.get(
+        f"http://api.qrserver.com/v1/create-qr-code/?data={qr_code}", stream=True
+    )
+    if res.status_code != 200:
+        raise Exception("QR code cannot be generated by QR Code Generator API.")
+    with open("qr_code.png", "wb") as f:
+        res.raw.decode_content = True
+        shutil.copyfileobj(res.raw, f)
+    print("QR code has been generated.")
+```
+
+You can get help about actual command:
+
+```py
+$ ./qr-code green-badge generate -h
+usage: qr-code green-badge generate [-h] first_name last_name birthdate [vaccination <name>=<value> ...]
 
 positional arguments:
-  name                  name of the vaccinated person
-  birth                 birthday of the vaccinated person in YYYY-MM-DD format
-  manufacturers         manufacturer of the vaccine ['pfizer', 'moderna', 'astrazeneca', 'janssen', 'sinovac']
-  dates <name>=<value>  date of the vaccination
+  first_name            name of the vaccinated person
+  last_name             surname of the vaccindate person
+  birthdate             birthday of the vaccinated person in YYYY-MM-DD format
+  vaccination <name>=<value>
+                        vaccination information as date=manufacturer
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -276,12 +352,10 @@ Wait, we did not added or registered any help messages - no need they are grabbe
 
 DynaCLI detects `**kwargs` and registers it as `<name>=<value>` pair.
 
-It also detects Enum type and registers them as CLI choices.
-
 Now it is time to run our actual final command(function):
 
 ```sh
-$ ./green-badge qr-code generate 1989-10-24 pfizer pfizer 1st_dosage=2021-01-01 2nd_dosage=2021-06-01
+$ ./qr-code green-badge generate Shako Rzayev 1989-10-24 2021-01-01=pfizer 2021-06-01=pfizer
 
 QR code has been generated.
 ```
