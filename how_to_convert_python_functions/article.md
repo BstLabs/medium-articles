@@ -89,7 +89,7 @@ if __name__ == "__main__":
         logging.exception(e)
 ```
 
-## Modified code with Dynacli
+## Modified code with DynaCLI
 With Dynacli, we can skip the 2nd part by designing our functions to be CLI-friendly. Functionally, the core logic is the same. To demonstrate the differentiation, we will update the original code as shown below.  
 
 First off all, we would like to restructure the code - thinking about CLI there should be `./qr-code` then `green-badge` feature-set(actual Python package) it is for storing all commands followed by `generate` to generate the actual QR codes:
