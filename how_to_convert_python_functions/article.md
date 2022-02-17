@@ -1,6 +1,6 @@
 # Build a User-Friendly CLI from Pure Python Functions
 
-_DynaCLI (Dynamic CLI) is a cloud-friendly, open source Python library for converting pure Python functions into Linux Shell commands on the fly. This article explains how [DynaCLI](https://pypi.org/project/dynacli/) makes writing Command Line Interfaces in Python easy and efficient, using as an example a function to generate a QR code that records a person's vaccination status._  
+_DynaCLI (Dynamic CLI) is a cloud-friendly, open source Python library for converting pure Python functions into Linux Shell commands. This article explains how [DynaCLI](https://pypi.org/project/dynacli/) makes writing Command Line Interfaces in Python easy and efficient, using as an example a function to generate a QR code that records a person's vaccination status._  
 
 This is a continuation of the article [How to Write User-friendly Command Line Interfaces in Python](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e), which describes how to use different Python libraries like argparse, Click, Typer, docopt and Fire to build CLI applications. To understand the motivations and use cases for DynaCLI, read the [Medium interview](https://medium.com/@CAIOStech/adopting-a-cli-thats-ideal-for-customisable-scalable-low-overhead-cloud-use-219fe95aad35). To learn the differences between DynaCLI and alternatives, refer to [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/). 
 
