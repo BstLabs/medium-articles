@@ -2,16 +2,18 @@
 
 DynaCLI (Dynamic CLI) is a cloud-friendly Python library for converting pure Python functions into Linux Shell commands on the fly. 
 
-This article explains how [DynaCLI](https://pypi.org/project/dynacli/). simplifies writing Command Line Interfaces in Python quickly and efficiently. It is a continuation of [the article](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e)
+This article explains how [DynaCLI](https://pypi.org/project/dynacli/) simplifies writing Command Line Interfaces in Python quickly and efficiently. It is a continuation of the article,[How to Write User-friendly Command Line Interfaces in Python](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e)
  which describes how to use different python libraries like  argparse, Click, Typer, Docopt and Fire to build CLI applications. To learn about the differences between DynaCLI and other alternatives mentioned above, refer [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/).
 
 In this article, we will use the example explained in the original article and create an application for building a vaccination QR code with the user inputs provided as command line arguments. 
 
-## What are we building?
+## Motivation 
 
 The basic idea behind DynaCLI is to accelerate and automate the process of building CLI applications as much as possible allowing the focus to be only on the Python code. DynaCLI generates help messages from the Python function docstrings and the function arguments are converted to CLI commands.
 
-Sounds interesting? Let's start.
+Sounds interesting? Let's start .
+
+## Conventional CLI building process 
 
 Building CLIs, in general, is a two-step process: first - the core code and second - the CLI predefined as a set of arguments, as shown below. 
 
@@ -89,10 +91,11 @@ if __name__ == "__main__":
         logging.exception(e)
 ```
 
-## Modified code with DynaCLI
+## CLI Designing with DynaCLI
 With Dynacli, we can skip the 2nd part by designing our functions to be CLI-friendly. Functionally, the core logic is the same. To demonstrate the differentiation, we will update the original code as shown below.  
 
-First off all, we would like to restructure the code - thinking about CLI there should be `./qr-code` then `green-badge` feature-set(actual Python package) it is for storing all commands followed by `generate` to generate the actual QR codes:
+### Restructuring
+First off all, we would like to restructure the code. Thinking about CLI there should be `./qr-code` then `green-badge` feature-set(actual Python package) which is for storing all commands followed by `generate` to generate the actual QR codes:
 
 ```sh
 $ tree green_badge -I __pycache__
@@ -134,7 +137,7 @@ class QRCode(TypedDict):
     birth: str
     vaccination: list[Vaccination]
 ```
-
+### CLI Building 
 The second big step is to design actual `generate` function in a way that it is going to accept all necessary information as arguments:
 
 ```py
@@ -174,7 +177,7 @@ The next important difference is that DynaCLI populates help messages from the d
 
 The rest of the code is the same - functionally the code logic remains the same.
 
-## CLI entrypoint
+### CLI entrypoint
 
 Now as the last step, create CLI entry point with Dynacli. Create a file called `cli` and add the following:
 
@@ -335,7 +338,7 @@ optional arguments:
   -h, --help            show this help message and exit
 ```
 
-So, the *highlights of using DynaCLI* in this sample: 
+So, the **highlights of using DynaCLI** in this sample included: 
 * We did not add or register any help messages - they were grabbed from the function docstrings.
 * DynaCLI detects `**kwargs` and registers them as `<name>=<value>` pair.
 * No special CLI pre-processing, adding arguments or version callbacks were required. 
