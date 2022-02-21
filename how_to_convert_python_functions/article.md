@@ -4,13 +4,13 @@ This story is based on the article [How to Write User-friendly Command Line Inte
 
 In original article following Python libraries were shown for building a *vaccination QR code* for you : argparse, Click, Typer, Docopt, Fire.
 
-We want to extend this article by using [dynacli](https://pypi.org/project/dynacli/).
+We want to extend this article by using [DynaCLI](https://pypi.org/project/dynacli/).
 There is fair enough comparison between libraries [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/).
 
 ## What are we building?
 
 The core concept behind our changes is to ease down the process of building CLI applications by focusing only on Python code itself.
-To keep it simple dynacli generates help messages from the Python function docstrings and the function arguments are converted to CLI commands.
+To keep it simple DynaCLI generates help messages from the Python function docstrings and the function arguments are converted to CLI commands.
 
 Sounds interesting? Let's start.
 
@@ -90,11 +90,11 @@ if __name__ == "__main__":
 
 Building CLIs in general divided in 2 steps: first the core code and second the CLI itself predefined as set of arguments, as shown above.
 
-With [dynacli](https://pypi.org/project/dynacli/) we can skip 2nd part by designing our functions to be CLI-friendly.
+With [DynaCLI](https://pypi.org/project/dynacli/) we can skip 2nd part by designing our functions to be CLI-friendly.
 
 ## Our changes to the original code
 
-First off all, we would like to restructure the CLI - thinking about CLI there should be `./qr-code` then `green-badge` feature-set(actual Python package) it is for storing all commands,
+First off all, we would like to restructure the CLI - thinking about CLI there should be `./qr-code` then `green-badge` feature-set(actual Python package) it is for grouping all command from one feature together,
 then `generate` to generate actual QR codes:
 
 ```sh
@@ -175,14 +175,14 @@ def generate(first_name: str, last_name: str, birthdate: str,  **vaccination: st
 The big change is we are going to accept date and the manufacturer name as keyword arguments.
 This is quite intuitive isn't it? Thinking about CLI call, it will look like: `./qr-code green-badge generate Shako Rzayev 1989-10-24 2021-01-01=pfizer 2021-06-01=pfizer`
 
-The next important change is - we have docstring with explanation of the arguments - you are right, dynacli uses this for building the help messages of the CLI.
+The next important change is - we have docstring with explanation of the arguments - you are right, DynaCLI uses this for building the help messages of the CLI.
 Again quite Pythonic - we already added explanation, why register same help message for building the CLI?
 
 The rest of the code is mostly the same - functionally no change, the logic is the same.
 
 ## CLI entrypoint
 
-Now just last step, create CLI entrypoint with dynacli, create a file called `cli` and add following:
+Now just last step, create CLI entrypoint with DynaCLI, create a file called `cli` and add following:
 
 ```py
 #!/usr/bin/env python3
@@ -212,7 +212,7 @@ Everything is dead simple Python. DynaCLI grabs version from `__version__` and C
 And that is it, now are ready to run the CLI, just give the execution priveleges to this file:
 
 ```sh
-$ chmod u+x qr-code
+chmod u+x qr-code
 ```
 
 Getting help output:
@@ -275,7 +275,7 @@ If you recall this function has a docstring - yes, that is the help message regi
 
 Here, we want to stress the bullet point - with DynaCLI no need to begin write things from the scratch and rewrite the whole code base.
 All you need to import already existing functionality to some intermediate representation as we did with `generate.py` and register it in the CLI.
-This effectively conforms the [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle) - 
+This effectively conforms the [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle) -
 your original code is closed to modification but is open to be extended by CLI.
 
 Our final version of `generate.py` looks like:
