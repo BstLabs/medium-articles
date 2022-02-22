@@ -134,14 +134,14 @@ Our updated code `generate.py` file looks like:
 
 ```py
 class Vaccination(TypedDict):
-    date: datetime
+    date: date
     manufacturer: Manufacturer
 
 
 class QRCode(TypedDict):
     name: str
     birth: str
-    vaccination: list[Vaccination]
+    vaccinations: list[Vaccination]
 ```
 
 ### CLI Building
@@ -164,7 +164,7 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
     qr_code = QRCode(
         name=f"{first_name} {last_name}",
         birth=birth_date,
-        vaccination=[
+        vaccinations=[
             Vaccination(manufacturer=manufacturer, date=datetime.strptime(date, "%Y-%m-%d"))
             for date, manufacturer in vaccinations.items()
         ],
@@ -321,7 +321,7 @@ Our final version of `generate.py` looks like:
 import shutil
 import requests
 
-from datetime import datetime
+from datetime import date, datetime
 from typing import Literal, TypedDict
 from enum import Enum
 
@@ -338,14 +338,14 @@ class Manufacturer(Enum):
 
 
 class Vaccination(TypedDict):
-    date: datetime
+    date: date
     manufacturer: Manufacturer
 
 
 class QRCode(TypedDict):
     name: str
     birth: str
-    vaccination: list[Vaccination]
+    vaccinations: list[Vaccination]
 
 
 def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: Manufacturer) -> None:
@@ -363,7 +363,7 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
     qr_code = QRCode(
         name=f"{first_name} {last_name}",
         birth=birth_date,
-        vaccination=[
+        vaccinations=[
             Vaccination(manufacturer=manufacturer, date=datetime.strptime(date, "%Y-%m-%d"))
             for date, manufacturer in vaccinations.items()
         ],
