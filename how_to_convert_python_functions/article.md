@@ -7,7 +7,7 @@ This is a continuation of the article [How to Write User-friendly Command Line I
 
 ## Motivation
 
-The basic idea behind DynaCLI is to accelerate and automate the process of building CLI applications as much as possible by focusing solely on Python code. Function arguments are converted to CLI commmands, and DynaCLI generates help messages from the Python function docstrings.
+The basic idea behind DynaCLI is to accelerate and automate the process of building CLI applications as much as possible by focusing solely on Python code. Function arguments are converted to CLI commands, and DynaCLI generates help messages from the Python function docstrings.
 
 Sounds interesting? Let's start exploring...
 
