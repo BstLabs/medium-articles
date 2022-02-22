@@ -1,14 +1,25 @@
 import shutil
+import requests
+
 from datetime import datetime
 from typing import Literal, TypedDict
+from enum import Enum
 
-import requests
 
 __version__ = "3.0"
 
+
+class Manufacturer(Enum):
+    pfizer = 1
+    moderna = 2
+    astrazeneca = 3
+    janssen = 4
+    sinovac = 5
+
+
 class Vaccination(TypedDict):
     date: datetime
-    manufacturer: Literal["pfizer", "moderna", "astrazeneca", "janssen", "sinovac"]
+    manufacturer: Manufacturer
 
 
 class QRCode(TypedDict):
@@ -17,24 +28,24 @@ class QRCode(TypedDict):
     vaccination: list[Vaccination]
 
 
-def generate(first_name: str, last_name: str, birthdate: str,  **vaccination: str) -> None:
+def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: Manufacturer) -> None:
     """
     Generate your vaccination QR code.
 
     Args:
         first_name (str): name of the vaccinated person
         last_name (str): surname of the vaccindate person
-        birthdate (str): birthday of the vaccinated person in YYYY-MM-DD format
-        **vaccination (str): vaccination information as date=manufacturer 
+        birth_date (str): birthday of the vaccinated person in YYYY-MM-DD format
+        **vaccinations (Manufacturer): vaccination information as date=manufacturer 
 
     Return: None
     """
     qr_code = QRCode(
         name=f"{first_name} {last_name}",
-        birth=birthdate,
+        birth=birth_date,
         vaccination=[
             Vaccination(manufacturer=manufacturer, date=datetime.strptime(date, "%Y-%m-%d"))
-            for date, manufacturer in vaccination.items()
+            for date, manufacturer in vaccinations.items()
         ],
     )
     res = requests.get(
