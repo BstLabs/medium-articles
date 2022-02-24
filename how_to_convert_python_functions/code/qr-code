@@ -7,11 +7,12 @@ Sample QR Generator
 import os
 import sys
 
-cwd = os.path.dirname(__file__)
+from dynacli import main
+
+cwd = os.path.dirname(os.path.realpath(__file__))
 
 __version__ = '1.0'
 
-from dynacli import main
 
 search_path = [cwd]
 sys.path.extend(search_path)
