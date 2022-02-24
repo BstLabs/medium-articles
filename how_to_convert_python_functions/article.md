@@ -161,6 +161,7 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
 
     Return: None
     """
+    # TODO: handle duplicate or wrong dates.
     qr_code = QRCode(
         name=f"{first_name} {last_name}",
         birth=birth_date,
@@ -179,6 +180,8 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
         shutil.copyfileobj(res.raw, f)
     print("QR code has been generated.")
 ```
+
+Ideally, it should print a nice error message if one of vaccination pairs contains wrong or duplicate date - but for the sake of simplicity we just skip this step.
 
 The major change is that we are going to accept the date and the manufacturer name as key value pairs. This is quite intuitive, isn't it? The CLI call will look something like: `./qr-code green-badge generate John Doe 1989-10-24 2021-01-01=pfizer 2021-06-01=pfizer`
  

@@ -40,6 +40,7 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
 
     Return: None
     """
+    # TODO: handle duplicate or wrong dates.
     qr_code = QRCode(
         name=f"{first_name} {last_name}",
         birth=birth_date,
