@@ -1,13 +1,13 @@
 # Build a User-Friendly CLI from Pure Python Functions
 
-_DynaCLI (Dynamic CLI) is a cloud-friendly, open source Python library for converting pure Python functions into Linux Shell commands. This article explains how [DynaCLI](https://pypi.org/project/dynacli/) makes writing Command Line Interfaces in Python easy and efficient, using as an example a function to generate a QR code that records a person's vaccination status._  
+_DynaCLI (Dynamic CLI) is a cloud-friendly, open source library for converting pure Python functions into Linux Shell commands. This article explains how [DynaCLI](https://pypi.org/project/dynacli/) makes writing Command Line Interfaces in Python easy and efficient, using as an example a function to generate a QR code that records a person's vaccination status._  
 
 This is a continuation of the article [How to Write User-friendly Command Line Interfaces in Python](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e), which describes how to use different Python libraries like argparse, Click, Typer, docopt and Fire to build CLI applications. To understand the motivations and use cases for DynaCLI, read the [Medium interview](https://medium.com/@CAIOStech/adopting-a-cli-thats-ideal-for-customisable-scalable-low-overhead-cloud-use-219fe95aad35). To learn the differences between DynaCLI and alternatives, refer to [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/).
 
 
 ## Motivation
 
-The basic idea behind DynaCLI is to accelerate and automate the process of building CLI applications as much as possible by focusing solely on Python code. Function arguments are converted to CLI commmands, and DynaCLI generates help messages from the Python function docstrings.
+The basic idea behind DynaCLI is to accelerate and automate the process of building CLI applications as much as possible by focusing solely on Python code. Function arguments are converted to CLI commands, and DynaCLI generates help messages from the Python function docstrings.
 
 Sounds interesting? Let's start exploring...
 
