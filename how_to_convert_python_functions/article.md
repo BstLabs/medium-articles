@@ -363,6 +363,7 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
 
     Return: None
     """
+    # TODO: handle duplicate or wrong dates.
     qr_code = QRCode(
         name=f"{first_name} {last_name}",
         birth=birth_date,
@@ -420,3 +421,5 @@ QR code has been generated.
 ![QR](./code/qr_code.png)
 
 That's it. We have focused only on the core functionality, simplified basic features of a CLI application and reshaped it to be more user-friendly. That's how CLIs should be!
+
+The source code: [how_to_convert_python_functions/code](https://github.com/BstLabs/medium-articles/tree/main/how_to_convert_python_functions/code)
