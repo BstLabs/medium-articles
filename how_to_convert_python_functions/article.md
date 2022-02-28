@@ -2,7 +2,7 @@
 
 _DynaCLI (Dynamic CLI) is a cloud-friendly, open source library for converting pure Python functions into Linux Shell commands. This article explains how [DynaCLI](https://pypi.org/project/dynacli/) makes writing Command Line Interfaces in Python easy and efficient, using as an example a function to generate a QR code that records a person's vaccination status._  
 
-This is a continuation of the article [How to Write User-friendly Command Line Interfaces in Python](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e), which describes how to use different Python libraries like argparse, Click, Typer, docopt and Fire to build CLI applications. To understand the motivations and use cases for DynaCLI, read the [Medium interview](https://medium.com/@CAIOStech/adopting-a-cli-thats-ideal-for-customisable-scalable-low-overhead-cloud-use-219fe95aad35). To learn the differences between DynaCLI and alternatives, refer to [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/).
+This is a continuation of the article [How to Write User-friendly Command Line Interfaces in Python](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e), which describes how to use different Python libraries like argparse, Click, Typer, docopt, and Fire to build CLI applications. To understand the motivations and use cases for DynaCLI, read the [Medium interview](https://medium.com/@CAIOStech/adopting-a-cli-thats-ideal-for-customisable-scalable-low-overhead-cloud-use-219fe95aad35). To learn the differences between DynaCLI and alternatives, refer to [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/).
 
 
 ## Motivation
@@ -128,9 +128,9 @@ class Manufacturer(Enum):
 
 Alternatively, we can use [Literal](https://docs.python.org/3.9/library/typing.html#typing.Literal). I am going to use Enum here instead of Literal. By choosing this approach, we add some defensive control on input data as Enum will automatically validate the data without any redundant custom validator.
 
-Therefore, we do not need manufacturer check in the `__post_init__` anymore and can remove it. Going further, the whole purpose of `@dataclass` here is validation, so we can replace this with [TypedDict](https://docs.python.org/3.9/library/typing.html#typing.TypedDict).
+Therefore, we do not need manufacturer check inside `__post_init__` anymore and can remove it. Going further, the whole purpose of `@dataclass` here is validation, so we can replace this with [TypedDict](https://docs.python.org/3.9/library/typing.html#typing.TypedDict).
 
-Our updated code `generate.py` file looks like:
+Our updated code `generate.py` file looks like this:
 
 ```py
 class Vaccination(TypedDict):
@@ -146,7 +146,7 @@ class QRCode(TypedDict):
 
 ### CLI Building
 
-The second big step is to design the actual `generate` function in a way that it is going to accept all then necessary information as arguments:
+The second big step is to design the actual `generate` function in a way that it is going to accept all the necessary information as arguments:
 
 ```py
 def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: Manufacturer) -> None:
@@ -181,18 +181,21 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
     print("QR code has been generated.")
 ```
 
-Ideally, it should print a nice error message if one of vaccination pairs contains wrong or duplicate date - but for the sake of simplicity we just skip this step.
+Ideally, it should print a nice error message if one of the vaccination pairs contains wrong or duplicate date - but for the sake of simplicity, we just skip this step.
 
-The major change is that we are going to accept the date and the manufacturer name as key value pairs. This is quite intuitive, isn't it? The CLI call will look something like: `./qr-code green-badge generate John Doe 1989-10-24 2021-01-01=pfizer 2021-06-01=pfizer`
+The major change is that we are going to accept the date and the manufacturer name as key-value pairs. This is quite intuitive, isn't it? 
+The CLI call will look something like this: 
+
+`./qr-code green-badge generate John Doe 1989-10-24 2021-01-01=pfizer 2021-06-01=pfizer`
  
-The next important difference is that DynaCLI populates help messages from the docstrings in the methods containing explanation of the arguments. ...You are right, this is quite Pythonic; if the explanations are already added once, why not use the same information to build the help messages in the CLI.  
+The next important difference is that DynaCLI populates help messages from the docstrings in the methods containing the explanation of the arguments. ...You are right, this is quite Pythonic; if the explanations are already added once, why not use the same information to build the help messages in the CLI.  
 
 The rest of the code is the same - functionally the code logic is unchanged.
 
 ### CLI entrypoint
 
 Now as the last step, we create the CLI entry point with Dynacli. 
-We have already provided the bootsrapper script, all you need is to provide the path for `dynacli` command:
+We have already provided the bootstrapper script, all you need is to provide the path for `dynacli` command:
 
 ```bash
 $ dynacli init qr-code path=.
@@ -200,7 +203,7 @@ $ dynacli init qr-code path=.
 Successfully created CLI entrypoint qr-code at /home/ssm-user/OSS/medium-articles/how_to_convert_python_functions/code
 ```
 
-It will fill the qr-code script with some boilerplate, starter code, you need just change commented portions, in order to have customized version of your CLI:
+It will fill the qr-code script with some boilerplate, starter code, you need just change commented portions, in order to have a customized version of your CLI:
 
 ```py
 #!/usr/bin/env python3
@@ -255,7 +258,7 @@ sys.path.extend(search_path)
 main(search_path)
 ```
 
-As you must have already noticed, there is no CLI pre-processing, adding arguments, version callback, etc. Everything is dead simple Python. DynaCLI grabs the version from __version__ and the CLI name from cli docstring.
+As you must have already noticed, there is no CLI pre-processing, adding arguments, version callback, etc. Everything is dead simple Python. DynaCLI grabs the version from __version__ and the CLI name from `qr_code`(CLI entrypoint) docstring.
 
 That's it - the changes are done and we are ready to run the CLI.
 
@@ -313,7 +316,7 @@ $ ./qr-code green-badge generate --version
 qr-code green-badge generate - v3.0
 ```
 
-DynaCLI detects `generate.py` file and the `generate` function in it. Only public names are exposed by the CLI and the function docstring is used to register the help message.
+DynaCLI detects `generate.py` and the `generate` function in it. Only public names are exposed by the CLI and the function docstring is used to register the help message.
 
 Here, we would like to stress that, with DynaCLI, there is no need to begin writing things from scratch and redo the whole code. All you need is to import already existing functionality to an intermediate representation as we did with `generate.py` and register it in the CLI. This effectively conforms to the [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle), where your original code is closed to modification but is open to being extended via CLI.
 
@@ -383,7 +386,7 @@ def generate(first_name: str, last_name: str, birth_date: str,  **vaccinations: 
     print("QR code has been generated.")
 ```
 
-You can get help about the command using:
+You can get help about the command(it is our Python function in fact) using:
 
 ```py
 $ ./qr-code green-badge generate -h
@@ -420,6 +423,6 @@ QR code has been generated.
 
 ![QR](./code/qr_code.png)
 
-That's it. We have focused only on the core functionality, simplified basic features of a CLI application and reshaped it to be more user-friendly. That's how CLIs should be!
+That's it. We have focused only on the core functionality, simplified basic features of a CLI application, and reshaped it to be more user-friendly. That's how CLIs should be!
 
 The source code: [how_to_convert_python_functions/code](https://github.com/BstLabs/medium-articles/tree/main/how_to_convert_python_functions/code)
