@@ -1,5 +1,8 @@
 # Build a User-Friendly CLI from Pure Python Functions
 
+![Greenpass QR iStock-1340320122](https://user-images.githubusercontent.com/3852029/156628515-cfd0b461-56b0-4419-9c53-e7896392babd.jpg)
+
+
 _DynaCLI (Dynamic CLI) is a cloud-friendly, open source library for converting pure Python functions into Linux Shell commands. This article explains how [DynaCLI](https://pypi.org/project/dynacli/) makes writing Command Line Interfaces in Python easy and efficient, using as an example a function to generate a QR code that records a person's vaccination status._  
 
 This is a continuation of the article [How to Write User-friendly Command Line Interfaces in Python](https://towardsdatascience.com/how-to-write-user-friendly-command-line-interfaces-in-python-cc3a6444af8e), which describes how to use different Python libraries like argparse, Click, Typer, docopt, and Fire to build CLI applications. To understand the motivations and use cases for DynaCLI, read the [Medium interview](https://medium.com/@CAIOStech/adopting-a-cli-thats-ideal-for-customisable-scalable-low-overhead-cloud-use-219fe95aad35). To learn the differences between DynaCLI and alternatives, refer to [DynaCLI vs. Alternatives](https://bstlabs.github.io/py-dynacli/advanced/why/).
@@ -9,6 +12,7 @@ This is a continuation of the article [How to Write User-friendly Command Line I
 
 The basic idea behind DynaCLI is to accelerate and automate the process of building CLI applications as much as possible by focusing solely on Python code. Function arguments are converted to CLI commands, and DynaCLI generates help messages from the Python function docstrings.
 
+We’ll demonstrate this approach by generating a QR code that indicates a person’s vaccination status.
 Sounds interesting? Let's start exploring...
 
 
@@ -426,3 +430,5 @@ QR code has been generated.
 That's it. We have focused only on the core functionality, simplified basic features of a CLI application, and reshaped it to be more user-friendly. That's how CLIs should be!
 
 The source code: [how_to_convert_python_functions/code](https://github.com/BstLabs/medium-articles/tree/main/how_to_convert_python_functions/code)
+
+*DynaCLI is an open source offering from BST LABS. Our goal is to make easier for organisations to realize the full potential of cloud computing through a range of open source and commercial offerings. We are best known for CAIOS, the Cloud AI Operating System, a development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of BlackSwan Technologies.*
