@@ -1,5 +1,5 @@
-# Simplify Cloud Instance Management from Your command Line
-*A Cloud VM (CLVM) open source tool reduces steps when working with AWS, Azure, GCP and especially VSCode Remote
+# Simplify Cloud Instance Management from your Command Line
+*A cloud virtual machine (CLVM) open source tool minimizes steps when working with AWS, Azure, GCP and especially VSCode Remote*
 
 ![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
 
@@ -18,8 +18,8 @@ It turns out you have to use your mouse or touchpad to hover over and click lots
  
 Please meet [CLVM(Cloud VM)](https://github.com/BstLabs/py-clvm). It will make your life easier.
  
-CLVM is an open-source command-line tool that provides convenient access to users' cloud instances over an SSM connection.
-It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another awesome open-source tool from [BST Labs](https://github.com/BstLabs/).
+CLVM is an open-source command-line tool that provides convenient access to users' cloud instances across one or more platforms over an SSM connection.
+It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another awesome open-source tool from [BST LABS](https://github.com/BstLabs/).
  
 ## Motivation
 The rationale for this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances.
@@ -151,9 +151,11 @@ Hello, World!
 
 ```
 
-One of the good things about CLVM is that the syntax is very intuitive and easy. The help messages and commands are pretty self-explanatory.
+One of the good things about CLVM is that the syntax is very intuitive and easy. The help messages and commands are mainly self-explanatory.
 
 ## Summary
-The article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience.
+This article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience. 
+
+We look forward to [your feedback](mailto:info@caios.io).
 ***
 *The author, Orkhan Shirinov, is a software developer / creator of CLVM. CLVM is an open-source project maintained by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
