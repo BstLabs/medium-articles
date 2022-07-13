@@ -2,17 +2,36 @@
 
 ![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
 
-So you're a developer and using cloud instances for your projects and development purposes. It turns out you have to use your mouse or touchpad to hover and click lots of buttons to start/stop instances configure and use these cloud services on the web interface. Modern problems require modern solutions.
+So you're a developer using cloud instances for your projects and development purposes. The struggle is you have to follow these steps below to get your instance ready to use and connect to it in the most simplistic way (AWS as an example).
+
+1. Log in to the web interface of AWS.
+2. Go to the EC2 Management Console.
+3. Generate a new ssh key and add it to AWS.
+4. Select your instance and start it using buttons.
+5. Find your instance's user name and public DNS name.
+6. Open the terminal and type `ssh -i <ssh_key_path> <user_name>@<public_dns_name>`
+
+If you plan to use VSCode Remote or port redirection to access your cloud instance resources, then these steps will be doubled.
+
+It turns out you have to use your mouse or touchpad to hover and click lots of buttons to start/stop instances configure and use these cloud services on the web interface. Modern problems require modern solutions.
  
 Please, meet [CLVM(Cloud VM)](https://github.com/BstLabs/py-clvm). It will make your life easier.
  
 CLVM is an open-source command-line tool that provides convenient access to users' cloud instances over an SSM connection.
 It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another awesome open-source tool by [BST Labs](https://github.com/BstLabs/).
+
+## Capabilities of CLVM
+1. Instance start/stop and listing operations
+2. SSH key generation and tunneling
+3. Session management
+4. Port redirection (forwarding)
+5. VSCode Remote utilities
+6. Support for AWS, GCP and, Azure
  
 ## Motivation
-The rationale behind this tool is to end the struggle of using the web interface to create, access, and configure several services to handle cloud instances.
+The rationale behind this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances.
  
-In this article, I will try my best to show how CLVM can help to decrease the inconveniences associated with a cloud environment. Mostly I'll be writing about using AWS Instances, SSM Sessions and VSCode Remote through CLVM.
+In this article, I will try my best to show how CLVM can help to decrease the inconveniences associated with a cloud environment. Mostly I'll be writing about using AWS, GCP, and Azure Instances, SSM Sessions and VSCode Remote through CLVM. Especially, connecting through VSCode Remote has never been this easy. So, without further ado, let's dive in to the topic.
  
  
 ## Installation
@@ -27,7 +46,7 @@ With a quick maneuver, just type `clvm -h` and you can read automatically derive
  
 ```
 $ clvm -h
-usage: clvm [-h] [-v] {connect,instance,redirect,ssh,ssm,vscode} ...
+usage: clvm [-h] [-v] {connect,instance,plt,redirect,ssh,ssm,vscode} ...
  
 Command Line Utility to connect or redirect ports to a Cloud Virtual Machine
  
@@ -35,6 +54,7 @@ positional arguments:
  {connect,instance,redirect,ssh,ssm,vscode}
    connect             connect to a Virtual Machine
    instance            vm instance management
+   plt                 change default platform (AWS, GCP, AZURE)
    redirect            start/stop port redirection session
    ssh                 start/stop ssh session
    ssm                 session manager utilities
@@ -45,7 +65,17 @@ optional arguments:
  -v, --version         show program's version number and exit
 ```
 
-## Working with instances
+# Working with instances
+
+## SSH key generation
+We need to secure the connection between two machines with a new ssh key generation. This responsibility is on CLVM as well. 
+```bash
+$ clvm ssh new <instance_name>
+``` 
+This statement generates and saves the SSH key to the corresponding directory in both of the endpoints(the local machine and the remote instance).
+
+#### SSH tunneling
+`clvm ssh start` command can be used for SSH tunneling. You need to specify <instance_name> as always and <port_number>.
 
 The fastest route is to type `clvm connect <instance_name>`. It automatically starts the VM instance and connects to it.
 
@@ -58,13 +88,13 @@ Starting <instance_name> ...
 Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using the only terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
 
 ## Default and optional configuration arguments
-Currently, CLVM supports AWS. The following versions of the tool will work with multiple cloud platforms like GCP, Azure, etc. So optional arguments will be important to maintain these resources. Please consider that we have only 2 optional arguments with default values for now, `profile` and `port` arguments. Default values are applied unless the optional arguments are explicitly specified.
+Currently, CLVM supports AWS, GCP, and Azure. The following versions of the tool will work with multiple cloud platforms like GCP, Azure, etc. So optional arguments will be important to maintain these resources. Please consider that we have only 2 optional arguments with default values for now, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
 
 They are as follows:
 
 `profile` = default
 
-`port` = 8080
+`8080` = 8080   #<i>port</i>
 
 You can set it to your preferred profile or port via passing it explicitly.
 
@@ -75,16 +105,26 @@ $ clvm connect <instance_name> profile=<profile_name>
 $ clvm redirect <instance_name> profile=<profile_name> port=<port_number>
 ```
 
+## Working with VSCode Remote over SSH
+You can get the most out of CLVM by using
+To do that we have `clvm vscode` command.
+```
+$ clvm vscode -h
+usage: clvm vscode [-h] {install,start} ...
+
+positional arguments:
+  {install,start}
+    install        install vscode local
+    start          obtain token, start instance if required, and launch vscode editor
+
+optional arguments:
+  -h, --help       show this help message and exit
+``` 
+As it seems from the documentation, in case you don't have VSCode installed on your local machine, you can use `install` to do all the installation steps automatically. You will get some useful vscode extensions installed like Python, remote-ssh, LTeX, etc.
 
 ## Port redirection
 In my example, I have VSCode installed on my cloud instance. So, if I use `clvm redirect start <instance_name>` I'll have my vscode server set on `http://localhost:8080/` ready.
 Easy, isn't it?! That reduces the complex port redirecting process via bash scripting to the usage of only 4 consecutive statements. You don't even have to start instances separately, because the `redirect` command does that for us. Stopping redirection is a piece of cake too. Just type `stop` instead of `start` and it will exit from redirection and stop the instance as well.
-
-## SSH key generation
-The need for a new ssh key generation for a particular machine is met by typing `clvm ssh new <instance_name>`. This statement generates and saves the SSH key to the corresponding directory with the help of AuthK under the hood. [AuthK](https://github.com/BstLabs/py-authk) is another open-source library from BST Labs. Visit the link for more detailed information and source code.
-
-#### SSH tunneling
-`clvm ssh start` command can be used for SSH tunneling. You need to specify <instance_name> as always and <port_number>.
 
 ## Session management
 With the help of CLVM, we have good control over sessions.
@@ -112,22 +152,6 @@ Hello, World!
 ```
 
 One of the good things about CLVM is that the syntax is very intuitive and easy. The help messages and commands are pretty self-explanatory.
-
-## Working with VSCode Remote over SSH
-To do that we have `clvm vscode` command.
-```
-$ clvm vscode -h
-usage: clvm vscode [-h] {install,start} ...
-
-positional arguments:
-  {install,start}
-    install        install vscode local
-    start          obtain token, start instance if required, and launch vscode editor
-
-optional arguments:
-  -h, --help       show this help message and exit
-``` 
-As it seems from the documentation, in case you don't have VSCode installed on your local machine, you can use `install` to do all the installation steps automatically. You will get some useful vscode extensions installed like Python, remote-ssh, LTeX, etc.
 
 ## Summary
 The article is aimed to contain information about the open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the thing" and not experience stress on gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience.
