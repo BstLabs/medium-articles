@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Simplify Cloud Instance Management from Your command Line
 
 ![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
@@ -6,14 +5,6 @@
 For decades software developers and engineers struggled to work with different projects just because of the maintenance of different dependencies, version collisions, handling resource-intensive software, and developing scripts and software that works platform-independently. Luckily we got cloud computing to solve our local development problems. However, we came across a different obstacle. The handling of different cloud instances has become frustrating.
 
 Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
-=======
-# Simplify Cloud Instance Management from your Command Line
-*A cloud virtual machine (CLVM) open source tool minimizes steps when working with AWS, Azure, GCP and especially VSCode Remote*
-
-![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
-
-So you're a developer using cloud instances for your projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it in the most simplistic way (using AWS as an example).
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 
 1. Log in to the web interface of AWS.
 2. Go to the EC2 Management Console.
@@ -24,26 +15,12 @@ So you're a developer using cloud instances for your projects and development pu
 
 If you plan to use VSCode Remote or port redirection to access your cloud instance resources, then these steps are doubled.
 
-<<<<<<< HEAD
 It turns out you have to use your mouse or touchpad to hover over and click lots of buttons to start/stop instances and configure and use these cloud services via a web interface. This is a non-productive way to work. Modern problems require modern solutions.
-=======
-It turns out you have to use your mouse or touchpad to hover over and click lots of buttons to start/stop instances, and configure and use these cloud services via a web interface. Modern problems require modern solutions.
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
  
-Please meet [CLVM(Cloud VM)](https://github.com/BstLabs/py-clvm). It will make your life easier.
+Please, meet [CLVM(Cloud VM)](https://github.com/BstLabs/py-clvm). It will make your life easier.
  
-<<<<<<< HEAD
 CLVM is an open-source command-line tool that provides convenient access to users' cloud instances over an SSM connection.
 It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another excellent open-source tool from [BST Labs](https://github.com/BstLabs/).
-=======
-CLVM is an open-source command-line tool that provides convenient access to users' cloud instances across one or more platforms over an SSM connection.
-It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another awesome open-source tool from [BST LABS](https://github.com/BstLabs/).
- 
-## Motivation
-The rationale for this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances.
- 
-In this article, I will show how CLVM can help to reduce the inconveniences associated with a cloud environment. Mostly I'll be writing about using AWS, GCP, and Azure Instances, SSM Sessions and VSCode Remote through CLVM. In particular, connecting through VSCode Remote has never been this easy. Without further ado, let's dive in to the topic.
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 
 ## <b>Capabilities of CLVM</b>
 1. Instance start/stop and listing operations
@@ -53,7 +30,6 @@ In this article, I will show how CLVM can help to reduce the inconveniences asso
 5. VSCode Remote utilities
 6. Support for AWS, GCP, and, Azure
  
-<<<<<<< HEAD
 ## <b>Motivation</b>
 The rationale behind this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances. Due to most developer surveys, folks use VSCode for their daily workflow. So do the engineers of BST Labs as well. To improve the development experience we decided to bring the different solutions for handling different steps of using cloud virtual machines together and combine them with VSCode Remote to deliver maximum convenience for fellow developers and engineers.
  
@@ -61,9 +37,6 @@ In this article, I will try my best to show how CLVM can help to decrease the in
  
  
 ## <b>Installation</b>
-=======
-## Installation
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 Install it via `pip`
 ```
 $ pip3 install pyclvm
@@ -94,15 +67,9 @@ optional arguments:
  -v, --version         show program's version number and exit
 ```
 
-<<<<<<< HEAD
 ## <b>Working with instances</b>
 
 ### <b>SSH key generation</b>
-=======
-## Working with instances
-
-### SSH key generation
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 We need to secure the connection between two machines with a new ssh key generation. This responsibility is on CLVM as well. 
 ```bash
 $ clvm ssh new <instance_name>
@@ -122,11 +89,7 @@ Starting <instance_name> ...
 ```
 Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using the only terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
 
-<<<<<<< HEAD
 ### <b>Default and optional configuration arguments</b>
-=======
-### Default and optional configuration arguments
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 Currently, CLVM supports AWS, GCP, and Azure. The following versions of the tool will work with multiple cloud platforms like GCP, Azure, etc. So optional arguments will be important to maintain these resources. Please consider that we have only 2 optional arguments with default values for now, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
 
 They are as follows:
@@ -144,15 +107,9 @@ $ clvm connect <instance_name> profile=<profile_name>
 $ clvm redirect <instance_name> profile=<profile_name> local_port=port
 ```
 
-<<<<<<< HEAD
 ### <b>Working with VSCode Remote over SSH</b>
 You can get the most out of CLVM by using VSCode Remote.
 To do that we have the `clvm vscode` command.
-=======
-### Working with VSCode Remote over SSH
-You can get the most out of CLVM by using
-To do that we have `clvm vscode` command.
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 ```
 $ clvm vscode -h
 usage: clvm vscode [-h] {install,start} ...
@@ -167,19 +124,11 @@ optional arguments:
 ``` 
 As apparent in the documentation, in case you don't have VSCode installed on your local machine, you can use `install` to do all the installation steps automatically. You also will have some useful vscode extensions installed like Python, remote-ssh, LTeX, etc.
 
-<<<<<<< HEAD
 ### <b>Port redirection</b>
 In my example, I have VSCode installed on my cloud instance. So, if I use `clvm redirect start <instance_name>` I'll have my vscode server set on `http://localhost:8080/` ready.
 Easy, isn't it?! That reduces the complex port redirecting process via bash scripting down to the use of only 4 consecutive statements. You don't even have to start instances separately, because the `redirect` command does that for us. Stopping redirection is a piece of cake too. Just type `stop` instead of `start` and it will exit from redirection and stop the instance as well.
 
 ### <b>Session management</b>
-=======
-### Port redirection
-In my example, I have VSCode installed on my cloud instance. So, if I use `clvm redirect start <instance_name>` I'll have my vscode server set on `http://localhost:8080/` ready.
-Easy, isn't it?! That reduces the complex port redirecting process via bash scripting down to the use of only 4 consecutive statements. You don't even have to start instances separately, because the `redirect` command does that for us. Stopping redirection is a piece of cake too. Just type `stop` instead of `start` and it will exit from redirection and stop the instance as well.
-
-### Session management
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
 With the help of CLVM, we have good control over sessions.
 ```
 $ clvm ssm session -h
@@ -204,18 +153,9 @@ Hello, World!
 
 ```
 
-One of the good things about CLVM is that the syntax is very intuitive and easy. The help messages and commands are mainly self-explanatory.
+One of the good things about CLVM is that the syntax is very intuitive and easy. The help messages and commands are pretty self-explanatory.
 
-<<<<<<< HEAD
 ## <b>Summary</b>
 The article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience.
 ***
 *The author, Orkhan Shirinov, is a software developer in BST LABS and one of the maintainers of CLVM. CLVM is an open-source project maintained by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
-=======
-## Summary
-This article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience. 
-
-We look forward to [your feedback](mailto:info@caios.io).
-***
-*The author, Orkhan Shirinov, is a software developer / creator of CLVM. CLVM is an open-source project maintained by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
->>>>>>> b7682fee19f9f980567380f4246cdef9219506c2
