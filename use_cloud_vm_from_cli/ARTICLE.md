@@ -1,10 +1,8 @@
-# Simplify Cloud Instance Management from Your command Line
+# Simplify Cloud Instance Management from Your Command Line
 
 ![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
 
-For decades software developers and engineers struggled to work with different projects just because of the maintenance of different dependencies, version collisions, handling resource-intensive software, and developing scripts and software that works platform-independently. Luckily we got cloud computing to solve our local development problems. However, we came across a different obstacle. The handling of different cloud instances has become frustrating.
-
-Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
+Cloud computing is tremendously empowering, but it comes with its own set of frustrations. Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
 
 1. Log in to the web interface of AWS.
 2. Go to the EC2 Management Console.
@@ -174,4 +172,4 @@ One of the good things about CLVM is that the syntax is very intuitive and easy.
 ## <b>Summary</b>
 The article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience.
 ***
-*The author, Orkhan Shirinov, is a software developer in BST LABS and one of the maintainers of CLVM. CLVM is an open-source project maintained by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
+*The author, Orkhan Shirinov, is a software developer in BST LABS and one of the maintainers of CLVM. CLVM is an open-source project started by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
