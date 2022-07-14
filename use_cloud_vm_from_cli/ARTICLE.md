@@ -87,12 +87,14 @@ $ clvm instance start <instance_name>
 Starting <instance_name> ...
 <instance_name> is running
 ```
-Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using the only terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
+Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using only the terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
 
 ### <b>Default and optional configuration arguments</b>
-Currently, CLVM supports AWS, GCP, and Azure. The following versions of the tool will work with multiple cloud platforms like GCP, Azure, etc. So optional arguments will be important to maintain these resources. Please consider that we have only 2 optional arguments with default values for now, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
+Currently, CLVM supports AWS, GCP, and Azure. So optional arguments will be important to maintain these resources. Please consider that we have only 3 optional arguments with default values for now, `platform`, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
 
 They are as follows:
+
+`platform` = AWS
 
 `profile` = default
 
@@ -104,7 +106,21 @@ Example:
 
 ```bash
 $ clvm connect <instance_name> profile=<profile_name>
-$ clvm redirect <instance_name> profile=<profile_name> local_port=port
+$ clvm redirect <instance_name> profile=<profile_name> local_port=<port_number>
+$ clvm redirect <instance_name> profile=<profile_name> local_port=port platform=<aws, gcp or azure>
+```
+
+### <b>Setting default cloud platform</b>
+Although the default platform is set to AWS you can change it to GCP or Azure. With this way you don't have to type the optional argument `platform` within the statements. And en case you forgot which is your default platform then it's covered too. The examples below will demonstrate this functionalities.
+
+```bash
+$ clvm plt
+Default platform is AWS
+```
+
+```bash
+$ clvm plt azure
+Default platform is AZURE
 ```
 
 ### <b>Working with VSCode Remote over SSH</b>
