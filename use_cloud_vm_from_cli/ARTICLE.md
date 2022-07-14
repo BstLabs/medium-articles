@@ -106,12 +106,12 @@ Example:
 
 ```bash
 $ clvm connect <instance_name> profile=<profile_name>
-$ clvm redirect <instance_name> profile=<profile_name> local_port=<port_number>
-$ clvm redirect <instance_name> profile=<profile_name> local_port=port platform=<aws, gcp or azure>
+$ clvm redirect <instance_name> profile=<profile_name> <local_port>=<port_number>
+$ clvm redirect <instance_name> profile=<profile_name> <local_port>=<port_number> platform=<aws, gcp or azure>
 ```
 
 ### <b>Setting default cloud platform</b>
-Although the default platform is set to AWS you can change it to GCP or Azure. With this way you don't have to type the optional argument `platform` within the statements. And en case you forgot which is your default platform then it's covered too. The examples below will demonstrate this functionalities.
+Although the default platform is set to AWS you can change it to GCP or Azure. This way, you don't have to type the optional argument `platform` within the statements, and in case you forgot which is your default platform then it's covered too. The examples below will demonstrate these functionalities.
 
 ```bash
 $ clvm plt
