@@ -31,7 +31,7 @@ It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another e
 6. Support for AWS, GCP, and, Azure
  
 ## <b>Motivation</b>
-The rationale behind this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances. Based on developer surveys, many folks use VSCode for their daily workflow; so do the engineers of BST Labs. To improve the development experience, we decided to combine the varied solutions for handling different steps of using cloud virtual machines and combine them with VSCode Remote to deliver maximum convenience for fellow developers and engineers.
+The rationale behind this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances. Based on developer surveys, many folks use VSCode for their daily workflow; so do the engineers of BST Labs. To improve the development experience, we have replicated the varied solutions for handling different steps of using cloud virtual machines and combined them with VSCode Remote to deliver maximum convenience for fellow developers and engineers.
  
 In this article, I will try my best to show how CLVM can help to decrease the inconveniences associated with a cloud environment. I will mostly write about using AWS, GCP, Azure Instances, SSM Sessions, and VSCode Remote through CLVM. In particular, connecting through VSCode Remote has never been this easy. So, without further ado, let's dive into the topic.
  
@@ -191,9 +191,9 @@ One of the good things about CLVM is that the syntax is very intuitive and easy.
 The article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience.
 ***
 ## Acknowledgment
-There's several minds behind CLVM which I want to pay my appreciations for making this project happen:
+There's several minds behind CLVM with whom I want to share my appreciation for making this project happen:
 
-[Avital Yahel](https://www.linkedin.com/in/avitalyahel/) - Gave the project idea
+[Avital Yahel](https://www.linkedin.com/in/avitalyahel/) - Came up with the project idea
 
 [Asher Sterkin](https://www.linkedin.com/in/asher-sterkin-10a1063/) - Developed the first version and technical guide
 
