@@ -2,7 +2,7 @@
 
 ![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
 
-For decades software developers and engineers struggled to work with different projects just because of the maintenance of different dependencies, version collisions, handling resource-intensive software, and developing scripts and software that works platform-independently. Luckily we got cloud computing to solve our local development problems. However, we came across a different obstacle. The handling of different cloud instances has become frustrating.
+Cloud computing is tremendously empowering, but it comes with its own set of frustrations. Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
 
 Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
 
@@ -22,6 +22,8 @@ Please, meet [CLVM(Cloud VM)](https://github.com/BstLabs/py-clvm). It will make 
 CLVM is an open-source command-line tool that provides convenient access to users' cloud instances over an SSM connection.
 It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another excellent open-source tool from [BST Labs](https://github.com/BstLabs/).
 
+### <b>Overview Diagram of CLVM</b>
+![Overview Diagram of CLVM](overview_clvm.png)
 ## <b>Capabilities of CLVM</b>
 1. Instance start/stop and listing operations
 2. SSH key generation and tunneling
@@ -38,7 +40,7 @@ In this article, I will try my best to show how CLVM can help to decrease the in
  
 ## <b>Installation</b>
 Install it via `pip`
-```
+```console
 $ pip3 install pyclvm
 ```
  
@@ -46,7 +48,7 @@ Thanks to DynaCLI, when installation is finished you will have the `clvm` comman
  
 With a quick maneuver, just type `clvm -h` and you can read automatically derived docstrings and usage.
  
-```
+```console
 $ clvm -h
 usage: clvm [-h] [-v] {connect,instance,plt,redirect,ssh,ssm,vscode} ...
  
@@ -71,8 +73,8 @@ optional arguments:
 
 ### <b>SSH key generation</b>
 We need to secure the connection between two machines with a new ssh key generation. This responsibility is on CLVM as well. 
-```bash
-$ clvm ssh new <instance_name>
+```console
+$ clvm ssh new <instance_name> platform=<aws, gcp or azure>
 ``` 
 This statement generates and saves the SSH key to the corresponding directory in both of the endpoints(the local machine and the remote instance). This feature uses [AuthK](https://github.com/BstLabs/py-authk) library under the hood.
 
@@ -82,35 +84,51 @@ This statement generates and saves the SSH key to the corresponding directory in
 The fastest route is to type `clvm connect <instance_name>`. It automatically starts the VM instance and connects to it.
 
 To only start an instance we need to type:
-```bash
-$ clvm instance start <instance_name>
+```console
+$ clvm instance start <instance_name> platform=<aws, gcp or azure>
 Starting <instance_name> ...
 <instance_name> is running
 ```
 Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using the only terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
 
 ### <b>Default and optional configuration arguments</b>
-Currently, CLVM supports AWS, GCP, and Azure. The following versions of the tool will work with multiple cloud platforms like GCP, Azure, etc. So optional arguments will be important to maintain these resources. Please consider that we have only 2 optional arguments with default values for now, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
+Currently, CLVM supports AWS, GCP, and Azure. So optional arguments will be important to maintain these resources. Please consider that we have only 3 optional arguments with default values for now, `platform`, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
 
 They are as follows:
+
+`platform` = AWS
 
 `profile` = default
 
 `8080` = 8080   #<i>port</i>
 
-You can set it to your preferred profile or port via passing it explicitly.
+You can set it to your preferred platform, profile and/or port via passing it explicitly.
 
 Example:
 
-```bash
+```console
 $ clvm connect <instance_name> profile=<profile_name>
 $ clvm redirect <instance_name> profile=<profile_name> local_port=port
+$ clvm redirect <instance_name> profile=<profile_name> local_port=port platform=<aws, gcp or azure>
+```
+
+### <b>Setting default cloud platform</b>
+Although the default platform is set to AWS you can change it to GCP or Azure. This way, you don't have to type the optional argument `platform` within the statements, and in case you forgot which is your default platform then it's covered too. The examples below will demonstrate these functionalities.
+
+```console
+$ clvm plt
+Default platform is AWS
+```
+
+```console
+$ clvm plt azure
+Default platform is AZURE
 ```
 
 ### <b>Working with VSCode Remote over SSH</b>
 You can get the most out of CLVM by using VSCode Remote.
 To do that we have the `clvm vscode` command.
-```
+```console
 $ clvm vscode -h
 usage: clvm vscode [-h] {install,start} ...
 
@@ -130,7 +148,23 @@ Easy, isn't it?! That reduces the complex port redirecting process via bash scri
 
 ### <b>Session management</b>
 With the help of CLVM, we have good control over sessions.
+
+```console
+$ clvm ssm -h
+usage: clvm ssm [-h] {shell,session,clear} ...
+
+positional arguments:
+  {shell,session,clear}
+    shell               execute shell script over ssm channel
+    session             session manager session utilities
+    clear               clear stored session credentials
+
+optional arguments:
+  -h, --help            show this help message and exit
 ```
+
+
+```console
 $ clvm ssm session -h
 usage: clvm ssm session [-h] {start,stop,ls} ...
  
@@ -145,12 +179,11 @@ optional arguments:
  
 ```
 With CLVM, it's possible to send shell commands to cloud instances directly from your local terminal. For that purpose, it has a `clvm ssm shell` statement. It takes an instance name as the first argument and commands in string format. To pass several commands you need to separate them with commas. For example:
-```
+```console
 $ clvm ssm shell <instance_name> "echo From cloud instance", "echo Hello, World!"
 <instance_name> is running
 From cloud instance,
 Hello, World!
-
 ```
 
 One of the good things about CLVM is that the syntax is very intuitive and easy. The help messages and commands are pretty self-explanatory.
@@ -158,4 +191,20 @@ One of the good things about CLVM is that the syntax is very intuitive and easy.
 ## <b>Summary</b>
 The article describes a high-productivity open-source solution for cloud developers and enthusiasts. It explains how CLVM helps to "do the necessary things" and not experience stress over gibberish code. The tool hides all the underlying nerdy processes and provides users with a clean and secure cloud development experience.
 ***
-*The author, Orkhan Shirinov, is a software developer in BST LABS and one of the maintainers of CLVM. CLVM is an open-source project maintained by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
+## Acknowledgment
+There's several minds behind CLVM which I want to pay my appreciations for making this project happen:
+
+[Avital Yahel](https://www.linkedin.com/in/avitalyahel/) - Gave the project idea
+
+[Asher Sterkin](https://www.linkedin.com/in/asher-sterkin-10a1063/) - Developed the first version and technical guide
+
+[Lior Kashti](https://www.linkedin.com/in/lior-kashti/) - Contributed to AWS instance mapping
+
+[Dmitro Slobodchikov](https://www.linkedin.com/in/dmitry-slobodchikov-643611b0/) - Maintainer and technical guide
+
+[Shahriyar Rzayev](https://www.linkedin.com/in/shahriyar-rzayev/) - Maintainer and technical guide
+
+[Scott Lichtman](https://www.linkedin.com/in/scottlichtman/) - Content guide
+
+
+*The author, [Orkhan Shirinov](https://www.linkedin.com/in/orkhan-shirinov-65475677/), is a software developer in BST LABS and one of the maintainers of CLVM. CLVM is an open-source project maintained by [BST LABS](https://github.com/BstLabs/). Our goal is to make organizations fully realize the extensive potential of cloud computing through a range of open source and commercial solutions. We are best known for [CAIOS](https://www.caios.io/home), a portable cloud operating system and development platform featuring Infrastructure-from-Code technology. BST LABS is a software engineering unit of [BlackSwan Technologies](https://www.blackswantechnologies.ai).*
