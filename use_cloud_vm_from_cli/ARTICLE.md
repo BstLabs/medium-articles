@@ -1,10 +1,8 @@
-# Simplify Cloud Instance Management from Your command Line
+# Simplify Cloud Instance Management from Your Command Line
 
 ![Cloud img](https://www.padok.fr/hubfs/Images/Blog/vm_metadata.webp)
 
 Cloud computing is tremendously empowering, but it comes with its own set of frustrations. Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
-
-Let's say you're a developer using cloud instances for projects and development purposes. One struggle is that you have to follow the steps below to ready your instance for use and connect to it most simplistically (using AWS as an example).
 
 1. Log in to the web interface of AWS.
 2. Go to the EC2 Management Console.
@@ -89,7 +87,7 @@ $ clvm instance start <instance_name> platform=<aws, gcp or azure>
 Starting <instance_name> ...
 <instance_name> is running
 ```
-Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using the only terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
+Next, we connect to our running instance via `clvm connect <instance_name>` and et voilà! We can operate within our instance from the local terminal. Of course, you are not limited to using only the terminal. VSCode Remote and Port redirection are some of the choices. Please, suit yourself.
 
 ### <b>Default and optional configuration arguments</b>
 Currently, CLVM supports AWS, GCP, and Azure. So optional arguments will be important to maintain these resources. Please consider that we have only 3 optional arguments with default values for now, `platform`, `profile` and `8080` as the port arguments. Default values are applied unless the optional arguments are explicitly specified.
@@ -108,8 +106,8 @@ Example:
 
 ```console
 $ clvm connect <instance_name> profile=<profile_name>
-$ clvm redirect <instance_name> profile=<profile_name> local_port=port
-$ clvm redirect <instance_name> profile=<profile_name> local_port=port platform=<aws, gcp or azure>
+$ clvm redirect <instance_name> profile=<profile_name> <local_port>=<port_number>
+$ clvm redirect <instance_name> profile=<profile_name> <local_port>=<port_number> platform=<aws, gcp or azure>
 ```
 
 ### <b>Setting default cloud platform</b>
@@ -128,6 +126,7 @@ Default platform is AZURE
 ### <b>Working with VSCode Remote over SSH</b>
 You can get the most out of CLVM by using VSCode Remote.
 To do that we have the `clvm vscode` command.
+
 ```console
 $ clvm vscode -h
 usage: clvm vscode [-h] {install,start} ...
