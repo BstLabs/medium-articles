@@ -13,7 +13,7 @@ Cloud computing is tremendously empowering, but it comes with its own set of fru
 
 If you plan to use VSCode Remote or port redirection to access your cloud instance resources, then these steps are doubled.
 
-It turns out you have to use your mouse or touchpad to hover over and click lots of buttons to start/stop instances and configure and use these cloud services via a web interface. This is a non-productive way to work. Modern problems require modern solutions.
+It turns out you have to use your mouse or touchpad to hover over and click lots of buttons to start/stop instances and configure and use these cloud services via a web interface. This is an unproductive way to work. Modern problems require modern solutions.
  
 Please, meet [CLVM(Cloud VM)](https://github.com/BstLabs/py-clvm). It will make your life easier.
  
@@ -31,9 +31,9 @@ It's built on top of [DynaCLI](https://github.com/BstLabs/py-dynacli), another e
 6. Support for AWS, GCP, and, Azure
  
 ## <b>Motivation</b>
-The rationale behind this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances. Due to most developer surveys, folks use VSCode for their daily workflow. So do the engineers of BST Labs as well. To improve the development experience we decided to bring the different solutions for handling different steps of using cloud virtual machines together and combine them with VSCode Remote to deliver maximum convenience for fellow developers and engineers.
+The rationale behind this tool is to end the struggle of using the web interface to access and configure several services to handle cloud instances. Based on developer surveys, many folks use VSCode for their daily workflow; so do the engineers of BST Labs. To improve the development experience, we decided to combine the varied solutions for handling different steps of using cloud virtual machines and combine them with VSCode Remote to deliver maximum convenience for fellow developers and engineers.
  
-In this article, I will try my best to show how CLVM can help to decrease the inconveniences associated with a cloud environment. I will mostly write about using AWS, GCP, Azure Instances, SSM Sessions, and VSCode Remote through CLVM. Especially, connecting through VSCode Remote has never been this easy. So, without further ado, let's dive into the topic.
+In this article, I will try my best to show how CLVM can help to decrease the inconveniences associated with a cloud environment. I will mostly write about using AWS, GCP, Azure Instances, SSM Sessions, and VSCode Remote through CLVM. In particular, connecting through VSCode Remote has never been this easy. So, without further ado, let's dive into the topic.
  
  
 ## <b>Installation</b>
